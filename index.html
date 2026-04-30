@@ -52,6 +52,20 @@
     <img id="bg-gif" src="background.gif" alt="background">
 
     <h1>Welcome to Dinosaur Island...</h1>
+<audio id="bg-music" loop>
+    <source src="horrorisland.mp3" type="audio/mpeg">
+</audio>
 
+<script>
+    const music = document.getElementById('bg-music');
+    
+    // Try autoplay immediately
+    music.play().catch(() => {
+        // If browser blocks it, play on first interaction
+        document.addEventListener('click', () => {
+            music.play();
+        }, { once: true });
+    });
+</script>
 </body>
 </html>
