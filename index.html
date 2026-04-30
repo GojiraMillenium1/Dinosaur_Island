@@ -68,14 +68,18 @@
     
 <script>
     const music = document.getElementById('bg-music');
+     const bg = document.getElementById('bg-gif');
     
     // Try autoplay immediately
-    music.play().catch(() => {
         // If browser blocks it, play on first interaction
-        document.addEventListener('click', () => {
-            music.play();
-        }, { once: true });
-    });
+    bg.addEventListener('mouseover', function() {
+        music.play();
+    }, { once: true });
+
+    // For mobile touch
+    bg.addEventListener('touchstart', function() {
+        music.play();
+    }, { once: true });
 </script>
 </body>
 </html>
