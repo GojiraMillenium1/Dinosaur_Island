@@ -46,6 +46,24 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
+        a {
+    display: contents;
+        }
+
+    #hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    z-index: 1;
+    cursor: pointer;
+    }
+
+
+
+
+        
     </style>
 </head>
 <body>
@@ -57,7 +75,9 @@
     <audio id="bg-music" loop>
         <source src="horrorisland.mp3" type="audio/mpeg">
     </audio>
-
+        <a href="island.html">
+            <img id="hand" src="SeveredHand.png" alt="severed hand">
+        </a>
     <script>
         const music = document.getElementById('bg-music');
         const bg = document.getElementById('bg-gif');
