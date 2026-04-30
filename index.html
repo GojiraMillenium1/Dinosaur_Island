@@ -69,6 +69,13 @@
 <script>
     const music = document.getElementById('bg-music');
      const bg = document.getElementById('bg-gif');
+
+ music.play().catch(() => {
+        // If browser blocks it, play on first interaction
+        document.addEventListener('click', () => {
+            music.play();
+        }, { once: true });
+    });
     
     // Try autoplay immediately
         // If browser blocks it, play on first interaction
@@ -80,6 +87,10 @@
     bg.addEventListener('touchstart', function() {
         music.play();
     }, { once: true });
+
+ 
+
+    
 </script>
 </body>
 </html>
