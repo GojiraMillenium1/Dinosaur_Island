@@ -45,6 +45,11 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
+
+        audio {
+    display: none;
+  }
+        
     </style>
 </head>
 <body>
@@ -52,10 +57,15 @@
     <img id="bg-gif" src="background.gif" alt="background">
 
     <h1>Welcome to Dinosaur Island...</h1>
-<audio id="bg-music" loop>
+<audio id="bg-music"autoplay loop>
     <source src="horrorisland.mp3" type="audio/mpeg">
 </audio>
 
+
+
+
+
+    
 <script>
     const music = document.getElementById('bg-music');
     
