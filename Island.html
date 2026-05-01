@@ -136,21 +136,20 @@
 <body>
 
     <img id="scene" src="images/BeachFront.png" alt="scene">
-<div id="jumpscare">
-        <img src="DinoJumpscare.jpeg" alt="jumpscare">
-    </div>
-     <div id="gameover">
-        <img src="images/Gameover.jpeg" alt="gameover">
-    </div>
+
     <div id="nav">
         <button class="btn-forward" id="btn-forward" onclick="moveForward()">↑</button>
         <button class="btn-back" id="btn-back" onclick="moveBack()" style="display:none;">↓</button>
         <img id="rotate-btn" src="images/Rotate.png" alt="rotate" onclick="rotateScene()">
     </div>
 
-    
+    <div id="jumpscare">
+        <img src="DinoJumpscare.jpeg" alt="jumpscare">
+    </div>
 
-   
+    <div id="gameover">
+        <img src="images/Gameover.jpeg" alt="gameover">
+    </div>
 
     <audio id="heartbeat" src="audio/Heartbeat.wav" loop></audio>
     <audio id="roar" src="audio/Jumpscareroar.wav"></audio>
@@ -168,21 +167,21 @@
             BeachRight: {
                 img: 'images/BeachRight.jpg',
                 forward: 'JUMPSCARE',
-                rotate: 'BeachFront',
+                rotate: 'BeachBack',
                 hasRotate: true,
                 hasBack: false
             },
             BeachBack: {
                 img: 'images/BeachBack.png',
                 forward: null,
-                rotate: 'BeachRight',
+                rotate: 'BeachLeft',
                 hasRotate: true,
                 hasBack: false
             },
             BeachLeft: {
                 img: 'images/BeachLeft.png',
                 forward: 'JUMPSCARE',
-                rotate: 'BeachBack',
+                rotate: 'BeachFront',
                 hasRotate: true,
                 hasBack: false
             },
@@ -247,30 +246,20 @@
         }
 
         function triggerJumpscare() {
-            // Stop heartbeat
             heartbeat.pause();
             heartbeat.currentTime = 0;
-
-            // Show jumpscare
             jumpscare.style.display = 'block';
-
-            // Play roar
             roar.play();
-
-            // After 2 seconds show game over + suspense
             setTimeout(() => {
                 jumpscare.style.display = 'none';
                 gameover.style.display = 'block';
                 suspense.play();
-
-                // After 5 seconds return to index
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 5000);
-            }, 8000);
+            }, 9000);
         }
 
-        // Initialize
         updateScene('BeachFront');
     </script>
 
