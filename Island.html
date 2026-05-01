@@ -24,12 +24,254 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        #nav {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .btn-forward {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border: 2px solid red;
+            color: red;
+            font-size: 2em;
+            padding: 10px 20px;
+            cursor: pointer;
+            pointer-events: all;
+            animation: glow 1.5s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border: 2px solid red;
+            color: red;
+            font-size: 2em;
+            padding: 10px 20px;
+            cursor: pointer;
+            pointer-events: all;
+            animation: glow 1.5s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .btn-forward:hover, .btn-back:hover {
+            background: red;
+            color: black;
+        }
+
+        #rotate-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            pointer-events: all;
+            opacity: 0.8;
+            transition: transform 0.3s ease;
+        }
+
+        #rotate-btn:hover {
+            transform: translateX(-50%) rotate(45deg);
+            opacity: 1;
+        }
+
+        #jumpscare {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            background-color: black;
+        }
+
+        #jumpscare img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #gameover {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background-color: black;
+        }
+
+        #gameover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px red; }
+            50% { box-shadow: 0 0 30px red; }
         }
     </style>
 </head>
 <body>
 
     <img id="scene" src="images/BeachFront.png" alt="scene">
+
+    <div id="nav">
+        <button class="btn-forward" id="btn-forward" onclick="moveForward()">↑</button>
+        <button class="btn-back" id="btn-back" onclick="moveBack()" style="display:none;">↓</button>
+        <img id="rotate-btn" src="images/Rotate.png" alt="rotate" onclick="rotateScene()">
+    </div>
+
+    <div id="jumpscare">
+        <img src="images/DinoJumpscare.jpeg" alt="jumpscare">
+    </div>
+
+    <div id="gameover">
+        <img src="images/gameover.png" alt="gameover">
+    </div>
+
+    <audio id="heartbeat" src="audio/Heartbeat.wav" loop></audio>
+    <audio id="roar" src="audio/Jumpscareroar.wav"></audio>
+    <audio id="suspense" src="audio/Suspense.wav" loop></audio>
+
+    <script>
+        const scenes = {
+            BeachFront: {
+                img: 'images/BeachFront.png',
+                forward: 'Jungle',
+                rotate: 'BeachRight',
+                hasRotate: true,
+                hasBack: false
+            },
+            BeachRight: {
+                img: 'images/BeachRight.jpg',
+                forward: 'JUMPSCARE',
+                rotate: 'BeachFront',
+                hasRotate: true,
+                hasBack: false
+            },
+            BeachBack: {
+                img: 'images/BeachBack.png',
+                forward: null,
+                rotate: 'BeachRight',
+                hasRotate: true,
+                hasBack: false
+            },
+            BeachLeft: {
+                img: 'images/BeachLeft.png',
+                forward: 'JUMPSCARE',
+                rotate: 'BeachBack',
+                hasRotate: true,
+                hasBack: false
+            },
+            Jungle: {
+                img: 'images/Jungle.png',
+                forward: null,
+                rotate: null,
+                hasRotate: false,
+                hasBack: true
+            }
+        };
+
+        let currentScene = 'BeachFront';
+        const sceneImg = document.getElementById('scene');
+        const rotateBtn = document.getElementById('rotate-btn');
+        const btnForward = document.getElementById('btn-forward');
+        const btnBack = document.getElementById('btn-back');
+        const heartbeat = document.getElementById('heartbeat');
+        const roar = document.getElementById('roar');
+        const suspense = document.getElementById('suspense');
+        const jumpscare = document.getElementById('jumpscare');
+        const gameover = document.getElementById('gameover');
+
+        function playHeartbeat() {
+            if (heartbeat.paused) {
+                heartbeat.play();
+            }
+        }
+
+        function updateScene(sceneName) {
+            currentScene = sceneName;
+            const scene = scenes[sceneName];
+            sceneImg.src = scene.img;
+            rotateBtn.style.display = scene.hasRotate ? 'block' : 'none';
+            btnBack.style.display = scene.hasBack ? 'block' : 'none';
+            btnForward.style.display = scene.forward !== null ? 'block' : 'none';
+        }
+
+        function moveForward() {
+            playHeartbeat();
+            const scene = scenes[currentScene];
+            if (scene.forward === 'JUMPSCARE') {
+                triggerJumpscare();
+            } else if (scene.forward === null) {
+                alert('Coming soon...');
+            } else {
+                updateScene(scene.forward);
+            }
+        }
+
+        function moveBack() {
+            playHeartbeat();
+            updateScene('BeachFront');
+        }
+
+        function rotateScene() {
+            playHeartbeat();
+            const scene = scenes[currentScene];
+            if (scene.rotate) {
+                updateScene(scene.rotate);
+            }
+        }
+
+        function triggerJumpscare() {
+            // Stop heartbeat
+            heartbeat.pause();
+            heartbeat.currentTime = 0;
+
+            // Show jumpscare
+            jumpscare.style.display = 'block';
+
+            // Play roar
+            roar.play();
+
+            // After 2 seconds show game over + suspense
+            setTimeout(() => {
+                jumpscare.style.display = 'none';
+                gameover.style.display = 'block';
+                suspense.play();
+
+                // After 5 seconds return to index
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 5000);
+            }, 2000);
+        }
+
+        // Initialize
+        updateScene('BeachFront');
+    </script>
 
 </body>
 </html>
