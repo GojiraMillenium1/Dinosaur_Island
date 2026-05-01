@@ -136,20 +136,21 @@
 <body>
 
     <img id="scene" src="images/BeachFront.png" alt="scene">
-
+<div id="jumpscare">
+        <img src="images/DinoJumpscare.jpeg" alt="jumpscare">
+    </div>
+     <div id="gameover">
+        <img src="images/Gameover.png" alt="gameover">
+    </div>
     <div id="nav">
         <button class="btn-forward" id="btn-forward" onclick="moveForward()">↑</button>
         <button class="btn-back" id="btn-back" onclick="moveBack()" style="display:none;">↓</button>
         <img id="rotate-btn" src="images/Rotate.png" alt="rotate" onclick="rotateScene()">
     </div>
 
-    <div id="jumpscare">
-        <img src="images/DinoJumpscare.jpeg" alt="jumpscare">
-    </div>
+    
 
-    <div id="gameover">
-        <img src="images/Gameover.png" alt="gameover">
-    </div>
+   
 
     <audio id="heartbeat" src="audio/Heartbeat.wav" loop></audio>
     <audio id="roar" src="audio/Jumpscareroar.wav"></audio>
